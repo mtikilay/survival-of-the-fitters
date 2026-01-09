@@ -1,5 +1,16 @@
 # AGENTS.md - Implementation Tasks
 
+**Related docs:** [CLAUDE.md](./CLAUDE.md) | [.github/copilot-instructions.md](./.github/copilot-instructions.md)
+
+## Beads Workflow (MANDATORY)
+
+**Every piece of work MUST have a beads issue.** No exceptions.
+
+- `bd ready` - Find work with no blockers
+- `bd create --title="..." --type=task|bug|feature --priority=2` - Create new issues
+- `bd update <id> --status=in_progress` - Claim work before starting
+- `bd close <id>` - Mark complete when done
+
 ## Priority Order
 
 ### P0: Core Data Infrastructure (Issue #2)
@@ -37,13 +48,12 @@
 
 **MANDATORY WORKFLOW:**
 
-1. **File issues for remaining work** - Create issues for anything that needs follow-up
+1. **File issues for remaining work** - Create beads issues for anything that needs follow-up
 2. **Run quality gates** (if code changed) - Tests, linters, builds
 3. **Update issue status** - Close finished work, update in-progress items
 4. **PUSH TO REMOTE** - This is MANDATORY:
    ```bash
    git pull --rebase
-   bd sync
    git push
    git status  # MUST show "up to date with origin"
    ```
