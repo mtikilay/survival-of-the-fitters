@@ -83,7 +83,9 @@ def main():
     print("Fetching price data...")
     try:
         prices = fetch_adj_close(tickers, start_date, end_date)
-        print(f"Fetched {len(prices)} days of data")
+        print(f"Fetched {len(prices)} days of data for {len(prices.columns)} ticker(s)")
+        if len(prices.columns) < len(tickers):
+            print(f"Successfully loaded tickers: {', '.join(prices.columns.tolist())}")
         print(f"Date range: {prices.index[0]} to {prices.index[-1]}")
         print()
     except Exception as e:
@@ -140,6 +142,10 @@ def main():
     
     # Calculate performance metrics
     metrics = calculate_performance_metrics(results)
+    
+    if "warning" in metrics:
+        print(f"WARNING: {metrics['warning']}")
+        print()
     
     print("Performance Metrics:")
     print(f"  Total Return:        {metrics['total_return']:7.2%}")
