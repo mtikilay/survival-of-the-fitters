@@ -10,6 +10,7 @@ def run_backtest(
     initial_capital: float = 100000.0,
     rebalance_freq: str = "M",  # M=monthly, Q=quarterly
     lookback_days: int = 252,
+    verbose: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Run a backtest with periodic rebalancing
@@ -28,6 +29,26 @@ def run_backtest(
     # Sort prices by date
     prices = prices.sort_index()
     
+    # Forward fill missing prices to avoid artificial portfolio value drops
+    # This assumes that if a price is missing, we use the last known price
+    prices = prices.ffill()
+    
+    # Check for any remaining NaN values (e.g., at the start of series)
+    initial_nans = prices.isna().sum()
+    if initial_nans.any():
+        print(f"\nWarning: Some tickers have missing data at the start of the period:")
+        for ticker, count in initial_nans[initial_nans > 0].items():
+            print(f"  {ticker}: {count} missing values")
+        # Back-fill any remaining NaN values at the start
+        prices = prices.bfill()
+    
+    
+    # Validate we have enough data
+    if len(prices) < lookback_days + 20:
+        print(f"\nWarning: Only {len(prices)} days of data available, but need at least {lookback_days + 20} days")
+        print(f"         (lookback_days={lookback_days} + 20 minimum periods)")
+        print(f"         Backtest will not rebalance, portfolio stays at initial capital.")
+    
     # Get rebalance dates
     if rebalance_freq == "M":
         rebalance_dates = prices.resample("ME").last().index
@@ -35,6 +56,18 @@ def run_backtest(
         rebalance_dates = prices.resample("QE").last().index
     else:
         raise ValueError("rebalance_freq must be 'M' or 'Q'")
+    
+    # Filter rebalance dates that have sufficient lookback data
+    valid_rebalance_dates = prices.index.intersection(rebalance_dates)
+    valid_rebalance_dates = valid_rebalance_dates[lookback_days:]
+    
+    if len(valid_rebalance_dates) == 0:
+        print(f"\nWarning: No valid rebalance dates found.")
+        print(f"         Data period: {prices.index[0]} to {prices.index[-1]} ({len(prices)} days)")
+        print(f"         Rebalance frequency: {rebalance_freq}")
+        print(f"         Lookback required: {lookback_days} days")
+        print(f"         First possible rebalance would be after {prices.index[0] + pd.Timedelta(days=lookback_days)}")
+        print(f"         Portfolio will remain at initial capital with no rebalancing.")
     
     # Initialize tracking variables
     results = []
@@ -59,6 +92,12 @@ def run_backtest(
             # Get weights from strategy
             try:
                 weights = strategy_func(lookback_returns)
+                
+                if verbose:
+                    print(f"Rebalancing on {date.strftime('%Y-%m-%d')}:")
+                    print(f"  Portfolio value: ${current_value:,.2f}")
+                    for ticker, weight in weights.items():
+                        print(f"    {ticker}: {weight:.2%}")
                 
                 # Calculate number of shares to hold
                 current_prices = prices.loc[date]
@@ -116,6 +155,26 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
     if len(results) < 2:
         return {}
     
+    # Check if portfolio actually changed (i.e., was rebalanced at least once)
+    # A portfolio that was never rebalanced will have constant value equal to initial capital
+    portfolio_values = results["portfolio_value"]
+    unique_values = portfolio_values.nunique()
+    
+    if unique_values == 1:
+        # Portfolio never changed - stayed at initial capital
+        return {
+            "total_return": 0.0,
+            "annualized_return": 0.0,
+            "annualized_volatility": 0.0,
+            "sharpe_ratio": np.nan,
+            "max_drawdown": 0.0,
+            "calmar_ratio": np.nan,
+            "start_date": results.index[0],
+            "end_date": results.index[-1],
+            "num_days": (results.index[-1] - results.index[0]).days,
+            "warning": "Portfolio was never rebalanced - insufficient data or no valid rebalance dates"
+        }
+    
     total_return = (results["portfolio_value"].iloc[-1] / results["portfolio_value"].iloc[0]) - 1
     
     # Calculate annualized return
@@ -138,6 +197,14 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
     drawdown = (cumulative - running_max) / running_max
     max_drawdown = drawdown.min()
     
+    # Find when max drawdown occurred
+    max_dd_date = drawdown.idxmin()
+    max_dd_value = cumulative.loc[max_dd_date]
+    peak_before_dd = running_max.loc[max_dd_date]
+    # Find the peak date more efficiently
+    running_max_before = running_max[:max_dd_date]
+    peak_date = running_max_before[running_max_before == peak_before_dd].index[-1]
+    
     # Calmar ratio (ann return / max drawdown)
     calmar = ann_return / abs(max_drawdown) if max_drawdown != 0 else np.nan
     
@@ -147,6 +214,10 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
         "annualized_volatility": ann_vol,
         "sharpe_ratio": sharpe,
         "max_drawdown": max_drawdown,
+        "max_drawdown_date": max_dd_date,
+        "max_drawdown_value": max_dd_value,
+        "peak_before_drawdown": peak_before_dd,
+        "peak_date": peak_date,
         "calmar_ratio": calmar,
         "start_date": results.index[0],
         "end_date": results.index[-1],

@@ -41,6 +41,8 @@ def main():
                        help="Output directory for results")
     parser.add_argument("--initial-capital", type=float, default=100000.0,
                        help="Initial capital for backtest")
+    parser.add_argument("--verbose", action="store_true",
+                       help="Show detailed rebalancing information")
     
     args = parser.parse_args()
     
@@ -83,7 +85,15 @@ def main():
     print("Fetching price data...")
     try:
         prices = fetch_adj_close(tickers, start_date, end_date)
-        print(f"Fetched {len(prices)} days of data")
+        
+        # Show which tickers were successfully loaded vs failed
+        loaded_tickers = set(prices.columns)
+        failed_tickers = set(tickers) - loaded_tickers
+        
+        print(f"Fetched {len(prices)} days of data for {len(loaded_tickers)} ticker(s)")
+        if failed_tickers:
+            print(f"Failed to load: {', '.join(sorted(failed_tickers))}")
+            print(f"Successfully loaded: {', '.join(sorted(loaded_tickers))}")
         print(f"Date range: {prices.index[0]} to {prices.index[-1]}")
         print()
     except Exception as e:
@@ -128,7 +138,8 @@ def main():
         strategy_func,
         initial_capital=args.initial_capital,
         rebalance_freq=args.rebalance,
-        lookback_days=252
+        lookback_days=252,
+        verbose=args.verbose
     )
     
     if len(results) == 0:
@@ -141,12 +152,24 @@ def main():
     # Calculate performance metrics
     metrics = calculate_performance_metrics(results)
     
+    if "warning" in metrics:
+        print(f"WARNING: {metrics['warning']}")
+        print()
+    
     print("Performance Metrics:")
     print(f"  Total Return:        {metrics['total_return']:7.2%}")
     print(f"  Annualized Return:   {metrics['annualized_return']:7.2%}")
     print(f"  Annualized Vol:      {metrics['annualized_volatility']:7.2%}")
     print(f"  Sharpe Ratio:        {metrics['sharpe_ratio']:7.2f}")
     print(f"  Max Drawdown:        {metrics['max_drawdown']:7.2%}")
+    
+    # Show drawdown details if available and verbose
+    if args.verbose and 'max_drawdown_date' in metrics:
+        print(f"    Peak Date:         {metrics['peak_date'].strftime('%Y-%m-%d')}")
+        print(f"    Peak Value:        ${metrics['peak_before_drawdown']:,.2f}")
+        print(f"    Trough Date:       {metrics['max_drawdown_date'].strftime('%Y-%m-%d')}")
+        print(f"    Trough Value:      ${metrics['max_drawdown_value']:,.2f}")
+    
     print(f"  Calmar Ratio:        {metrics['calmar_ratio']:7.2f}")
     print()
     

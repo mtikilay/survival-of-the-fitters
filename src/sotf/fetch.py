@@ -29,6 +29,16 @@ def fetch_adj_close(tickers: list[str], start: str, end: str) -> pd.DataFrame:
 
     px = px.dropna(how="all")
     px = px.sort_index()
+    
+    # Filter out columns with all NaN values (failed downloads)
+    failed_tickers = px.columns[px.isna().all()].tolist()
+    if failed_tickers:
+        print(f"\nWarning: Excluding {len(failed_tickers)} ticker(s) with no valid data: {', '.join(failed_tickers)}")
+        px = px.dropna(axis=1, how="all")
+    
+    if px.empty or len(px.columns) == 0:
+        raise ValueError("No valid price data available for any ticker")
+    
     return px
 
 def to_returns(px: pd.DataFrame, method: str = "log") -> pd.DataFrame:
