@@ -5,7 +5,7 @@ Main pipeline script for running portfolio analysis and backtesting
 from __future__ import annotations
 import argparse
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import pandas as pd
 
 # Add src to path
@@ -23,6 +23,7 @@ from sotf.report import (
 )
 
 def main():
+    run_started_at = datetime.now(timezone.utc)
     parser = argparse.ArgumentParser(description="Run vocational training portfolio analysis")
     parser.add_argument("--universe", type=str, default="data/universe.csv",
                        help="Path to universe CSV file")
@@ -65,8 +66,10 @@ def main():
     print()
     
     # Create output directory
-    output_dir = Path(args.output)
-    output_dir.mkdir(exist_ok=True)
+    timestamp_dir = run_started_at.strftime("%Y%m%d-%H-%M-%S")
+    output_root = Path(args.output)
+    output_dir = output_root / timestamp_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
     
     # Load universe
     print("Loading universe...")
