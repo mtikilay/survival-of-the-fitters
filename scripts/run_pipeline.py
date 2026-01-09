@@ -85,9 +85,15 @@ def main():
     print("Fetching price data...")
     try:
         prices = fetch_adj_close(tickers, start_date, end_date)
-        print(f"Fetched {len(prices)} days of data for {len(prices.columns)} ticker(s)")
-        if len(prices.columns) < len(tickers):
-            print(f"Successfully loaded tickers: {', '.join(prices.columns.tolist())}")
+        
+        # Show which tickers were successfully loaded vs failed
+        loaded_tickers = set(prices.columns.tolist())
+        failed_tickers = set(tickers) - loaded_tickers
+        
+        print(f"Fetched {len(prices)} days of data for {len(loaded_tickers)} ticker(s)")
+        if failed_tickers:
+            print(f"Failed to load: {', '.join(sorted(failed_tickers))}")
+            print(f"Successfully loaded: {', '.join(sorted(loaded_tickers))}")
         print(f"Date range: {prices.index[0]} to {prices.index[-1]}")
         print()
     except Exception as e:

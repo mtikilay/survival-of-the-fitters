@@ -58,7 +58,8 @@ def run_backtest(
         raise ValueError("rebalance_freq must be 'M' or 'Q'")
     
     # Filter rebalance dates that have sufficient lookback data
-    valid_rebalance_dates = [d for i, d in enumerate(prices.index) if d in rebalance_dates and i >= lookback_days]
+    valid_rebalance_dates = prices.index[prices.index.isin(rebalance_dates)]
+    valid_rebalance_dates = valid_rebalance_dates[lookback_days:]
     
     if len(valid_rebalance_dates) == 0:
         print(f"\nWarning: No valid rebalance dates found.")
@@ -155,8 +156,11 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
         return {}
     
     # Check if portfolio actually changed (i.e., was rebalanced at least once)
+    # A portfolio that was never rebalanced will have constant value equal to initial capital
     portfolio_values = results["portfolio_value"]
-    if portfolio_values.std() == 0:
+    unique_values = portfolio_values.nunique()
+    
+    if unique_values == 1:
         # Portfolio never changed - stayed at initial capital
         return {
             "total_return": 0.0,
@@ -197,7 +201,8 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
     max_dd_date = drawdown.idxmin()
     max_dd_value = cumulative.loc[max_dd_date]
     peak_before_dd = running_max.loc[max_dd_date]
-    peak_date = cumulative[:max_dd_date][cumulative[:max_dd_date] == peak_before_dd].index[-1]
+    # Find the peak date more efficiently using idxmax
+    peak_date = running_max[:max_dd_date][running_max[:max_dd_date] == peak_before_dd].index[-1]
     
     # Calmar ratio (ann return / max drawdown)
     calmar = ann_return / abs(max_drawdown) if max_drawdown != 0 else np.nan
