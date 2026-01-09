@@ -87,7 +87,7 @@ def main():
         prices = fetch_adj_close(tickers, start_date, end_date)
         
         # Show which tickers were successfully loaded vs failed
-        loaded_tickers = set(prices.columns.tolist())
+        loaded_tickers = set(prices.columns)
         failed_tickers = set(tickers) - loaded_tickers
         
         print(f"Fetched {len(prices)} days of data for {len(loaded_tickers)} ticker(s)")

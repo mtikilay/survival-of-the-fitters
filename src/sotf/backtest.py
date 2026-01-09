@@ -58,7 +58,7 @@ def run_backtest(
         raise ValueError("rebalance_freq must be 'M' or 'Q'")
     
     # Filter rebalance dates that have sufficient lookback data
-    valid_rebalance_dates = prices.index[prices.index.isin(rebalance_dates)]
+    valid_rebalance_dates = prices.index.intersection(rebalance_dates)
     valid_rebalance_dates = valid_rebalance_dates[lookback_days:]
     
     if len(valid_rebalance_dates) == 0:
@@ -201,8 +201,9 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
     max_dd_date = drawdown.idxmin()
     max_dd_value = cumulative.loc[max_dd_date]
     peak_before_dd = running_max.loc[max_dd_date]
-    # Find the peak date more efficiently using idxmax
-    peak_date = running_max[:max_dd_date][running_max[:max_dd_date] == peak_before_dd].index[-1]
+    # Find the peak date more efficiently
+    running_max_before = running_max[:max_dd_date]
+    peak_date = running_max_before[running_max_before == peak_before_dd].index[-1]
     
     # Calmar ratio (ann return / max drawdown)
     calmar = ann_return / abs(max_drawdown) if max_drawdown != 0 else np.nan
