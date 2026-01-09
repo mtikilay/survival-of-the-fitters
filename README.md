@@ -14,8 +14,26 @@ This project analyzes and backtests investment portfolios focused on vocational 
 
 ## Installation
 
+### Option 1: Virtual Environment (Recommended)
+
 ```bash
+# Create a virtual environment
+python3 -m venv venv
+
+# Activate the virtual environment
+# On Linux/Mac:
+source venv/bin/activate
+# On Windows:
+# venv\Scripts\activate
+
 # Install dependencies
+pip install -r requirements.txt
+```
+
+### Option 2: Editable Install
+
+```bash
+# Install as an editable package
 pip install -e .
 ```
 
