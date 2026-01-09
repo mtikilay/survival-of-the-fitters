@@ -14,7 +14,7 @@ def equal_weight(tickers: list[str]) -> pd.Series:
     n = len(tickers)
     return pd.Series([1.0 / n] * n, index=tickers, name="weight")
 
-def max_diversification(cov: pd.DataFrame, bounds: tuple[float, float]=(0.0, 0.2)) -> pd.Series:
+def max_diversification(cov: pd.DataFrame, bounds: tuple[float, float]=(0.05, 0.35)) -> pd.Series:
     # Maximize diversification ratio = (w' sigma) / sqrt(w' Cov w)
     tickers = list(cov.columns)
     sigma = np.sqrt(np.diag(cov.values))

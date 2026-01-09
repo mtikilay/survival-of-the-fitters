@@ -33,9 +33,7 @@ def fetch_adj_close(tickers: list[str], start: str, end: str) -> pd.DataFrame:
 
 def to_returns(px: pd.DataFrame, method: str = "log") -> pd.DataFrame:
     if method == "log":
-        rets = (px / px.shift(1))
-        rets = rets.map(lambda x: float(x) if pd.notna(x) else float("nan"))
-        rets = np.log(rets)
+        rets = np.log(px / px.shift(1))
     elif method == "simple":
         rets = px.pct_change()
     else:
