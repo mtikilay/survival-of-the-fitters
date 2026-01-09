@@ -116,7 +116,7 @@ def main():
     else:  # max_div
         def strategy_func(rets_df):
             cov = rets_df.cov() * 252
-            return max_diversification(cov, bounds=(0.05, 0.30))
+            return max_diversification(cov)
     
     # Run backtest
     print("Running backtest...")

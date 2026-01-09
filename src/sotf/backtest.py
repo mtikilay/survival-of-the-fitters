@@ -50,7 +50,7 @@ def run_backtest(
             lookback_prices = prices.iloc[lookback_start:i+1]
             
             # Calculate returns for the lookback period
-            lookback_returns = lookback_prices.pct_change().dropna()
+            lookback_returns = np.log(lookback_prices / lookback_prices.shift(1)).dropna()
             
             # Skip if not enough data
             if len(lookback_returns) < 20:
