@@ -10,6 +10,7 @@ def run_backtest(
     initial_capital: float = 100000.0,
     rebalance_freq: str = "M",  # M=monthly, Q=quarterly
     lookback_days: int = 252,
+    verbose: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Run a backtest with periodic rebalancing
@@ -90,6 +91,12 @@ def run_backtest(
             # Get weights from strategy
             try:
                 weights = strategy_func(lookback_returns)
+                
+                if verbose:
+                    print(f"Rebalancing on {date.strftime('%Y-%m-%d')}:")
+                    print(f"  Portfolio value: ${current_value:,.2f}")
+                    for ticker, weight in weights.items():
+                        print(f"    {ticker}: {weight:.2%}")
                 
                 # Calculate number of shares to hold
                 current_prices = prices.loc[date]
@@ -186,6 +193,12 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
     drawdown = (cumulative - running_max) / running_max
     max_drawdown = drawdown.min()
     
+    # Find when max drawdown occurred
+    max_dd_date = drawdown.idxmin()
+    max_dd_value = cumulative.loc[max_dd_date]
+    peak_before_dd = running_max.loc[max_dd_date]
+    peak_date = cumulative[:max_dd_date][cumulative[:max_dd_date] == peak_before_dd].index[-1]
+    
     # Calmar ratio (ann return / max drawdown)
     calmar = ann_return / abs(max_drawdown) if max_drawdown != 0 else np.nan
     
@@ -195,6 +208,10 @@ def calculate_performance_metrics(results: pd.DataFrame) -> dict:
         "annualized_volatility": ann_vol,
         "sharpe_ratio": sharpe,
         "max_drawdown": max_drawdown,
+        "max_drawdown_date": max_dd_date,
+        "max_drawdown_value": max_dd_value,
+        "peak_before_drawdown": peak_before_dd,
+        "peak_date": peak_date,
         "calmar_ratio": calmar,
         "start_date": results.index[0],
         "end_date": results.index[-1],
