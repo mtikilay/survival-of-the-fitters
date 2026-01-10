@@ -4,3 +4,4 @@ yfinance>=0.2.50
 matplotlib>=3.8
 scipy>=1.12
 pyyaml>=6.0.1
+asciichartpy>=1.5

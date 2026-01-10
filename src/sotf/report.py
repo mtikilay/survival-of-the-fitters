@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
+import asciichartpy as asciichart
 
 def save_backtest_results(results: pd.DataFrame, output_path: str | Path) -> None:
     """Save backtest results to CSV"""
@@ -109,3 +110,132 @@ def generate_summary_stats(results: pd.DataFrame, weights: pd.Series, mu: pd.Ser
             f.write(f"{key:30s}: {value}\n")
     
     print(f"Summary statistics saved to {output_path}")
+
+def print_ascii_equity_curve(results: pd.DataFrame, metrics: dict, height: int = 20, width: int = 80) -> None:
+    """
+    Print an ASCII art equity curve chart to the console.
+    
+    Args:
+        results: DataFrame with portfolio_value column and date index
+        metrics: Dictionary of performance metrics including max_drawdown_date
+        height: Height of the chart in lines (default: 20)
+        width: Target width for chart display (default: 80)
+    """
+    if len(results) == 0:
+        print("No data to chart")
+        return
+    
+    # Prepare data
+    values = results["portfolio_value"].values
+    dates = results.index
+    
+    # Downsample if we have too many data points for the width
+    if len(values) > width - 20:  # Leave room for axis labels
+        # Sample evenly across the data
+        indices = np.linspace(0, len(values) - 1, width - 20, dtype=int)
+        values = values[indices]
+        dates = dates[indices]
+    
+    # Find the max drawdown point
+    max_dd_date = metrics.get('max_drawdown_date')
+    dd_index = None
+    if max_dd_date is not None:
+        # Find closest date in our (potentially downsampled) data
+        closest_idx = 0
+        min_diff = abs((dates[0] - max_dd_date).total_seconds())
+        for i, date in enumerate(dates):
+            diff = abs((date - max_dd_date).total_seconds())
+            if diff < min_diff:
+                min_diff = diff
+                closest_idx = i
+        dd_index = closest_idx
+    
+    # Create the chart
+    config = {
+        'height': height,
+        'format': '{:10,.0f}'
+    }
+    
+    chart = asciichart.plot(values.tolist(), config)
+    
+    # Split chart into lines for annotation
+    chart_lines = chart.split('\n')
+    
+    # Print header
+    print()
+    print("=" * 80)
+    print("EQUITY CURVE")
+    print("=" * 80)
+    print()
+    
+    # Print the chart
+    for line in chart_lines:
+        print(line)
+    
+    # Print X-axis (dates)
+    print()
+    
+    # Create date labels - show start, middle, end, and drawdown point
+    label_positions = []
+    label_texts = []
+    
+    # Start date
+    label_positions.append(0)
+    label_texts.append(dates[0].strftime('%Y-%m-%d'))
+    
+    # Max drawdown date if available
+    if dd_index is not None and dd_index not in label_positions:
+        label_positions.append(dd_index)
+        label_texts.append(f"{dates[dd_index].strftime('%Y-%m-%d')} (DD)")
+    
+    # Middle date
+    mid_idx = len(dates) // 2
+    if mid_idx not in label_positions:
+        label_positions.append(mid_idx)
+        label_texts.append(dates[mid_idx].strftime('%Y-%m-%d'))
+    
+    # End date
+    if len(dates) - 1 not in label_positions:
+        label_positions.append(len(dates) - 1)
+        label_texts.append(dates[-1].strftime('%Y-%m-%d'))
+    
+    # Sort by position
+    sorted_labels = sorted(zip(label_positions, label_texts))
+    
+    # Print date axis
+    # Calculate spacing for labels
+    axis_line = " " * 13  # Offset for y-axis labels
+    for pos, text in sorted_labels:
+        # Calculate position in the display
+        # The chart has some offset from the y-axis labels
+        display_pos = 13 + int((pos / len(dates)) * (len(chart_lines[0]) - 13))
+        axis_line += " " * max(0, display_pos - len(axis_line))
+        axis_line += "|"
+    
+    print(axis_line)
+    
+    # Print labels below markers
+    label_line = " " * 13
+    for pos, text in sorted_labels:
+        display_pos = 13 + int((pos / len(dates)) * (len(chart_lines[0]) - 13))
+        # Center the label under the marker
+        label_start = display_pos - len(text) // 2
+        label_line += " " * max(0, label_start - len(label_line))
+        label_line += text
+    
+    print(label_line)
+    print()
+    
+    # Print legend
+    print("LEGEND:")
+    print(f"  Start Value:  ${values[0]:,.2f} on {dates[0].strftime('%Y-%m-%d')}")
+    print(f"  End Value:    ${values[-1]:,.2f} on {dates[-1].strftime('%Y-%m-%d')}")
+    
+    if dd_index is not None and 'max_drawdown' in metrics:
+        dd_value = values[dd_index]
+        peak_value = metrics.get('peak_before_drawdown', values[0])
+        print(f"  Max Drawdown: {metrics['max_drawdown']:.2%} on {dates[dd_index].strftime('%Y-%m-%d')}")
+        print(f"                (Peak: ${peak_value:,.2f} → Trough: ${dd_value:,.2f})")
+    
+    print()
+    print("=" * 80)
