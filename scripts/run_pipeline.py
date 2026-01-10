@@ -19,7 +19,8 @@ from sotf.optimize import equal_weight, max_diversification
 from sotf.backtest import run_backtest, calculate_performance_metrics
 from sotf.report import (
     save_backtest_results, save_weights_over_time, plot_equity_curve,
-    plot_weights_allocation, plot_correlation_heatmap, generate_summary_stats
+    plot_weights_allocation, plot_correlation_heatmap, generate_summary_stats,
+    print_ascii_equity_curve
 )
 
 def main():
@@ -43,6 +44,8 @@ def main():
                        help="Initial capital for backtest")
     parser.add_argument("--verbose", action="store_true",
                        help="Show detailed rebalancing information")
+    parser.add_argument("--no-chart", action="store_true",
+                       help="Skip ASCII equity curve chart display")
     
     args = parser.parse_args()
     
@@ -186,6 +189,10 @@ def main():
     
     print(f"  Calmar Ratio:        {metrics['calmar_ratio']:7.2f}")
     print()
+    
+    # Display ASCII equity curve chart unless --no-chart is specified
+    if not args.no_chart:
+        print_ascii_equity_curve(results, metrics)
     
     # Get final weights
     if len(weights_over_time) > 0:
