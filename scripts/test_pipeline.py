@@ -53,13 +53,16 @@ def main():
     print(f"Loaded {len(tickers)} tickers: {', '.join(tickers)}")
     print()
     
-    # Generate synthetic data
+    # Generate synthetic data with lookback period
     print("Generating synthetic price data...")
-    start_date = "2021-01-01"
+    test_start_date = "2021-01-01"
     end_date = "2023-12-31"
-    prices = generate_synthetic_prices(tickers, start_date, end_date)
-    print(f"Generated {len(prices)} days of data")
-    print(f"Date range: {prices.index[0].date()} to {prices.index[-1].date()}")
+    # Generate extra data for lookback (252 trading days ~= 365 calendar days)
+    fetch_start_date = "2019-12-01"  # Extra ~13 months before test start
+    prices = generate_synthetic_prices(tickers, fetch_start_date, end_date)
+    print(f"Generated {len(prices)} days of data (including lookback period)")
+    print(f"Full date range: {prices.index[0].date()} to {prices.index[-1].date()}")
+    print(f"Test period: {test_start_date} to {end_date}")
     print()
     
     # Calculate returns
@@ -101,12 +104,14 @@ def main():
         
         # Run backtest
         print("Running backtest...")
+        test_start_timestamp = pd.Timestamp(test_start_date)
         results, weights_over_time = run_backtest(
             prices,
             strategy_func,
             initial_capital=100000.0,
             rebalance_freq="Q",
-            lookback_days=252
+            lookback_days=252,
+            test_start_date=test_start_timestamp
         )
         
         print(f"Backtest complete: {len(results)} days simulated")

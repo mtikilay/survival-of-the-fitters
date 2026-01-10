@@ -11,6 +11,7 @@ def run_backtest(
     rebalance_freq: str = "M",  # M=monthly, Q=quarterly
     lookback_days: int = 252,
     verbose: bool = False,
+    test_start_date: pd.Timestamp | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Run a backtest with periodic rebalancing
@@ -21,6 +22,9 @@ def run_backtest(
         initial_capital: Starting portfolio value
         rebalance_freq: Rebalancing frequency ('M' or 'Q')
         lookback_days: Number of days to look back for calculating statistics
+        verbose: Print detailed rebalancing information
+        test_start_date: Optional start date for the test period. If provided, results
+                        before this date are excluded (but data is used for lookback).
         
     Returns:
         results: DataFrame with portfolio value over time
@@ -58,8 +62,13 @@ def run_backtest(
         raise ValueError("rebalance_freq must be 'M' or 'Q'")
     
     # Filter rebalance dates that have sufficient lookback data
-    valid_rebalance_dates = prices.index.intersection(rebalance_dates)
-    valid_rebalance_dates = valid_rebalance_dates[lookback_days:]
+    # We need at least lookback_days of history before the first rebalance
+    valid_rebalance_dates = []
+    for rb_date in rebalance_dates:
+        if rb_date in prices.index:
+            pos = prices.index.get_loc(rb_date)
+            if pos >= lookback_days:
+                valid_rebalance_dates.append(rb_date)
     
     if len(valid_rebalance_dates) == 0:
         print(f"\nWarning: No valid rebalance dates found.")
@@ -75,9 +84,58 @@ def run_backtest(
     current_value = initial_capital
     current_shares = None
     
+    # If test_start_date is specified, we want to begin the backtest at that date
+    # Find the closest date in prices to test_start_date for the initial rebalance
+    backtest_start_idx = 0
+    if test_start_date is not None:
+        # Find the first date >= test_start_date
+        for idx, date in enumerate(prices.index):
+            if date >= test_start_date:
+                backtest_start_idx = idx
+                break
+        
+        # Perform initial rebalance at the backtest start if we have enough lookback
+        if backtest_start_idx >= lookback_days:
+            date = prices.index[backtest_start_idx]
+            lookback_start = max(0, backtest_start_idx - lookback_days)
+            lookback_prices = prices.iloc[lookback_start:backtest_start_idx+1]
+            lookback_returns = np.log(lookback_prices / lookback_prices.shift(1)).dropna()
+            
+            if len(lookback_returns) >= 20:
+                try:
+                    weights = strategy_func(lookback_returns)
+                    current_prices = prices.loc[date]
+                    current_shares = {}
+                    
+                    for ticker in weights.index:
+                        if ticker in current_prices.index and pd.notna(current_prices[ticker]):
+                            allocation = current_value * weights[ticker]
+                            shares = allocation / current_prices[ticker]
+                            current_shares[ticker] = shares
+                    
+                    weights_history.append({
+                        "date": date,
+                        **{ticker: weight for ticker, weight in weights.items()}
+                    })
+                    
+                    if verbose:
+                        print(f"Initial rebalancing on {date.strftime('%Y-%m-%d')} (test period start):")
+                        print(f"  Portfolio value: ${current_value:,.2f}")
+                        for ticker, weight in weights.items():
+                            print(f"    {ticker}: {weight:.2%}")
+                except Exception as e:
+                    print(f"Warning: Initial rebalance failed on {date}: {e}")
+    
     for i, date in enumerate(prices.index):
-        # Check if we need to rebalance
-        if date in rebalance_dates and i >= lookback_days:
+        # Check if we need to rebalance (skip the initial rebalance if already done)
+        should_rebalance = (date in rebalance_dates and i >= lookback_days)
+        
+        # Skip the initial rebalance if it was already done above
+        if test_start_date is not None and backtest_start_idx >= lookback_days:
+            if date == prices.index[backtest_start_idx]:
+                should_rebalance = False
+        
+        if should_rebalance:
             # Get lookback window
             lookback_start = max(0, i - lookback_days)
             lookback_prices = prices.iloc[lookback_start:i+1]
@@ -93,7 +151,12 @@ def run_backtest(
             try:
                 weights = strategy_func(lookback_returns)
                 
-                if verbose:
+                # Only print rebalancing info if it's within the test period or no test period specified
+                should_print = verbose
+                if test_start_date is not None and date < test_start_date:
+                    should_print = False
+                
+                if should_print:
                     print(f"Rebalancing on {date.strftime('%Y-%m-%d')}:")
                     print(f"  Portfolio value: ${current_value:,.2f}")
                     for ticker, weight in weights.items():
@@ -147,6 +210,12 @@ def run_backtest(
         weights_df = pd.DataFrame(weights_history).set_index("date")
     else:
         weights_df = pd.DataFrame()
+    
+    # Filter results to test period if specified
+    if test_start_date is not None:
+        results_df = results_df[results_df.index >= test_start_date]
+        if len(weights_df) > 0:
+            weights_df = weights_df[weights_df.index >= test_start_date]
     
     return results_df, weights_df
 
