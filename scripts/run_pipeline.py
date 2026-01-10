@@ -58,13 +58,25 @@ def main():
     else:
         start_date = args.start
     
+    # Calculate lookback period for strategy calculations
+    # Add 252 trading days (~1 year) + buffer for lookback
+    lookback_days = 252
+    start_dt_obj = datetime.strptime(start_date, "%Y-%m-%d")
+    # Add extra calendar days to ensure we have enough trading days
+    # 252 trading days ~= 365 calendar days
+    fetch_start_dt = start_dt_obj - timedelta(days=lookback_days + 100)
+    fetch_start_date = fetch_start_dt.strftime("%Y-%m-%d")
+    
     print("=" * 60)
     print("SURVIVAL OF THE FITTERS - Portfolio Analysis")
     print("=" * 60)
-    print(f"Period: {start_date} to {end_date}")
+    print(f"Test Period: {start_date} to {end_date}")
     print(f"Strategy: {args.strategy}")
     print(f"Rebalance: {args.rebalance}")
     print(f"Initial Capital: ${args.initial_capital:,.2f}")
+    print()
+    print(f"Note: Fetching data from {fetch_start_date} to include lookback period")
+    print(f"      (Results will only be reported for {start_date} onwards)")
     print()
     
     # Create output directory
@@ -81,10 +93,10 @@ def main():
     print(f"Loaded {len(tickers)} tickers: {', '.join(tickers)}")
     print()
     
-    # Fetch price data
+    # Fetch price data with lookback period
     print("Fetching price data...")
     try:
-        prices = fetch_adj_close(tickers, start_date, end_date)
+        prices = fetch_adj_close(tickers, fetch_start_date, end_date)
         
         # Show which tickers were successfully loaded vs failed
         loaded_tickers = set(prices.columns)
@@ -133,13 +145,15 @@ def main():
     
     # Run backtest
     print("Running backtest...")
+    test_start_timestamp = pd.Timestamp(start_date)
     results, weights_over_time = run_backtest(
         prices,
         strategy_func,
         initial_capital=args.initial_capital,
         rebalance_freq=args.rebalance,
         lookback_days=252,
-        verbose=args.verbose
+        verbose=args.verbose,
+        test_start_date=test_start_timestamp
     )
     
     if len(results) == 0:
