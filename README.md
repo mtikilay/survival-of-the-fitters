@@ -10,7 +10,12 @@ This project analyzes and backtests investment portfolios focused on vocational 
 - Transportation (automotive, CDL, aviation)
 - Allied health careers
 
-**Important:** This portfolio focuses on hands-on vocational skills, not IT/coding training.
+**Important:** This portfolio specifically focuses on hands-on vocational skills, not IT/coding training, which are actively shunned.
+
+### 2025 performance
+
+<img width="901" height="1600" alt="image" src="https://github.com/user-attachments/assets/56e63dfb-8339-404a-a655-7d04608d57bc" />
+
 
 ## Installation
 
