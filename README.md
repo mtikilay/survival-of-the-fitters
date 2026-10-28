@@ -74,10 +74,6 @@ $100,000 initial capital, universe of 4 loaded tickers (LINC, UTI, NXD.AX, EDU.A
 
 Max drawdown for both runs bottoms on 2026-10-15 (peak 2026-07-07).
 
-### 2025 performance
-
-<img width="901" height="1600" alt="image" src="https://github.com/user-attachments/assets/56e63dfb-8339-404a-a655-7d04608d57bc" />
-
 
 ## Installation
 
