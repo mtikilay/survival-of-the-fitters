@@ -1,0 +1,238 @@
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:585: Pandas4Warning: The inplace keyword in DataFrame.set_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  dividends.set_index("date", inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:587: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  dividends.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:604: Pandas4Warning: The inplace keyword in DataFrame.set_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  splits.set_index("date", inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:606: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  splits.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: ATGE"}}}
+$ATGE: possibly delisted; no timezone found
+
+1 Failed download:
+['ATGE']: possibly delisted; no timezone found
+/home/runner/.local/lib/python3.12/site-packages/yfinance/multi.py:220: Pandas4Warning: The inplace keyword in DataFrame.rename is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  data.rename(columns=ctx.isins, inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/multi.py:224: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  data.sort_index(level=0, axis=1, inplace=True)
+============================================================
+SURVIVAL OF THE FITTERS - Portfolio Analysis
+============================================================
+Test Period: 2020-01-01 to 2026-10-27
+Strategy: max_div
+Rebalance: Q
+Initial Capital: $100,000.00
+
+Note: Fetching data from 2019-01-14 to include lookback period
+      (Results will only be reported for 2020-01-01 onwards)
+
+Loading universe...
+Loaded 5 tickers: LINC, UTI, ATGE, NXD.AX, EDU.AX
+
+Fetching price data...
+
+Warning: Excluding 1 ticker(s) with no valid data: ATGE
+Fetched 2011 days of data for 4 ticker(s)
+Failed to load: ATGE
+Successfully loaded: EDU.AX, LINC, NXD.AX, UTI
+Date range: 2019-01-14 00:00:00 to 2026-10-26 00:00:00
+
+Calculating returns...
+Calculated returns for 2009 periods
+
+Computing analytics...
+
+Annualized Returns:
+  EDU.AX    :  15.42%
+  LINC      :  28.55%
+  NXD.AX    : -19.92%
+  UTI       :  23.82%
+
+Annualized Volatility:
+  EDU.AX    :  65.70%
+  LINC      :  54.98%
+  NXD.AX    :  83.83%
+  UTI       :  55.69%
+
+Running backtest...
+Rebalancing on 2020-03-31:
+  Portfolio value: $100,000.00
+    EDU.AX: 26.99%
+    LINC: 23.62%
+    NXD.AX: 28.14%
+    UTI: 21.25%
+Rebalancing on 2020-06-30:
+  Portfolio value: $117,168.11
+    EDU.AX: 24.57%
+    LINC: 25.02%
+    NXD.AX: 28.82%
+    UTI: 21.59%
+Rebalancing on 2020-09-30:
+  Portfolio value: $200,238.11
+    EDU.AX: 28.19%
+    LINC: 25.65%
+    NXD.AX: 24.70%
+    UTI: 21.46%
+Rebalancing on 2020-12-31:
+  Portfolio value: $242,898.78
+    EDU.AX: 29.29%
+    LINC: 24.99%
+    NXD.AX: 23.86%
+    UTI: 21.86%
+Rebalancing on 2021-03-31:
+  Portfolio value: $248,601.15
+    EDU.AX: 27.23%
+    LINC: 25.08%
+    NXD.AX: 21.63%
+    UTI: 26.06%
+Rebalancing on 2021-06-30:
+  Portfolio value: $248,805.15
+    EDU.AX: 29.35%
+    LINC: 23.16%
+    NXD.AX: 18.66%
+    UTI: 28.83%
+Rebalancing on 2021-09-30:
+  Portfolio value: $225,770.76
+    EDU.AX: 31.76%
+    LINC: 21.84%
+    NXD.AX: 17.12%
+    UTI: 29.28%
+Rebalancing on 2021-12-31:
+  Portfolio value: $261,348.42
+    EDU.AX: 26.94%
+    LINC: 31.84%
+    NXD.AX: 14.67%
+    UTI: 26.55%
+Rebalancing on 2022-03-31:
+  Portfolio value: $263,641.47
+    EDU.AX: 24.34%
+    LINC: 35.00%
+    NXD.AX: 14.55%
+    UTI: 26.11%
+Rebalancing on 2022-06-30:
+  Portfolio value: $243,210.88
+    EDU.AX: 29.39%
+    LINC: 34.05%
+    NXD.AX: 13.64%
+    UTI: 22.91%
+Rebalancing on 2022-09-30:
+  Portfolio value: $247,599.96
+    EDU.AX: 29.54%
+    LINC: 32.46%
+    NXD.AX: 16.72%
+    UTI: 21.28%
+Rebalancing on 2023-03-31:
+  Portfolio value: $286,904.05
+    EDU.AX: 27.66%
+    LINC: 22.74%
+    NXD.AX: 26.39%
+    UTI: 23.22%
+Rebalancing on 2023-06-30:
+  Portfolio value: $297,708.31
+    EDU.AX: 24.90%
+    LINC: 21.71%
+    NXD.AX: 30.26%
+    UTI: 23.14%
+Rebalancing on 2024-09-30:
+  Portfolio value: $313,061.24
+    EDU.AX: 25.79%
+    LINC: 34.19%
+    NXD.AX: 15.19%
+    UTI: 24.82%
+Rebalancing on 2024-12-31:
+  Portfolio value: $431,889.67
+    EDU.AX: 25.43%
+    LINC: 33.13%
+    NXD.AX: 14.21%
+    UTI: 27.23%
+Rebalancing on 2025-03-31:
+  Portfolio value: $503,149.85
+    EDU.AX: 29.87%
+    LINC: 23.58%
+    NXD.AX: 16.58%
+    UTI: 29.98%
+Rebalancing on 2025-06-30:
+  Portfolio value: $779,962.08
+    EDU.AX: 25.94%
+    LINC: 25.28%
+    NXD.AX: 18.23%
+    UTI: 30.55%
+Rebalancing on 2025-09-30:
+  Portfolio value: $1,018,746.41
+    EDU.AX: 24.14%
+    LINC: 26.94%
+    NXD.AX: 21.49%
+    UTI: 27.43%
+Rebalancing on 2025-12-31:
+  Portfolio value: $1,190,696.84
+    EDU.AX: 20.71%
+    LINC: 32.38%
+    NXD.AX: 26.05%
+    UTI: 20.87%
+Rebalancing on 2026-03-31:
+  Portfolio value: $1,382,385.38
+    EDU.AX: 21.27%
+    LINC: 30.01%
+    NXD.AX: 25.84%
+    UTI: 22.89%
+Rebalancing on 2026-06-30:
+  Portfolio value: $1,480,937.05
+    EDU.AX: 22.86%
+    LINC: 33.38%
+    NXD.AX: 25.08%
+    UTI: 18.69%
+Rebalancing on 2026-09-30:
+  Portfolio value: $911,555.97
+    EDU.AX: 27.39%
+    LINC: 29.54%
+    NXD.AX: 28.20%
+    UTI: 14.88%
+Backtest complete: 1761 days simulated
+
+Performance Metrics:
+  Total Return:        766.22%
+  Annualized Return:    37.28%
+  Annualized Vol:       32.93%
+  Sharpe Ratio:           1.13
+  Max Drawdown:        -48.77%
+    Peak Date:         2026-10-15
+    Peak Value:        $1,622,216.78
+    Trough Date:       2026-10-15
+    Trough Value:      $831,131.91
+  Calmar Ratio:           0.76
+
+Final Portfolio Weights:
+  LINC      :  29.54%
+  UTI       :  14.88%
+  NXD.AX    :  28.20%
+  EDU.AX    :  27.39%
+
+Generating reports...
+Backtest results saved to results/run-b-max_div-quarterly/20261028-15-02-49/backtest_results.csv
+Weights over time saved to results/run-b-max_div-quarterly/20261028-15-02-49/weights_over_time.csv
+Equity curve saved to results/run-b-max_div-quarterly/20261028-15-02-49/equity_curve.png
+Allocation chart saved to results/run-b-max_div-quarterly/20261028-15-02-49/allocation.png
+Correlation heatmap saved to results/run-b-max_div-quarterly/20261028-15-02-49/correlation_heatmap.png
+Summary statistics saved to results/run-b-max_div-quarterly/20261028-15-02-49/summary.txt
+
+============================================================
+All outputs saved to: /home/runner/work/survival-of-the-fitters/survival-of-the-fitters/results/run-b-max_div-quarterly/20261028-15-02-49
+============================================================
