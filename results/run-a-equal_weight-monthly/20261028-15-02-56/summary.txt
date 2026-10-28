@@ -1,0 +1,16 @@
+Portfolio Performance Summary
+==================================================
+
+Total Return                  : 322.03%
+Annualized Return             : 23.53%
+Annualized Volatility         : 34.78%
+Sharpe Ratio                  : 0.68
+Max Drawdown                  : -46.59%
+Start Date                    : 2020-01-02
+End Date                      : 2026-10-26
+Initial Value                 : $100000.00
+Final Value                   : $422031.63
+Weight_EDU.AX                 : 25.00%
+Weight_LINC                   : 25.00%
+Weight_NXD.AX                 : 25.00%
+Weight_UTI                    : 25.00%

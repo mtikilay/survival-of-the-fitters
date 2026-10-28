@@ -1,0 +1,454 @@
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:585: Pandas4Warning: The inplace keyword in DataFrame.set_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  dividends.set_index("date", inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:587: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  dividends.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:568: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  quotes.sort_index(inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:604: Pandas4Warning: The inplace keyword in DataFrame.set_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  splits.set_index("date", inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/utils.py:606: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  splits.sort_index(inplace=True)
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: ATGE"}}}
+$ATGE: possibly delisted; no timezone found
+
+1 Failed download:
+['ATGE']: possibly delisted; no timezone found
+/home/runner/.local/lib/python3.12/site-packages/yfinance/multi.py:220: Pandas4Warning: The inplace keyword in DataFrame.rename is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  data.rename(columns=ctx.isins, inplace=True)
+/home/runner/.local/lib/python3.12/site-packages/yfinance/multi.py:224: Pandas4Warning: The inplace keyword in DataFrame.sort_index is deprecated and will be removed in a future version (PDEP-8).
+See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+  data.sort_index(level=0, axis=1, inplace=True)
+============================================================
+SURVIVAL OF THE FITTERS - Portfolio Analysis
+============================================================
+Test Period: 2020-01-01 to 2026-10-27
+Strategy: equal_weight
+Rebalance: M
+Initial Capital: $100,000.00
+
+Note: Fetching data from 2019-01-14 to include lookback period
+      (Results will only be reported for 2020-01-01 onwards)
+
+Loading universe...
+Loaded 5 tickers: LINC, UTI, ATGE, NXD.AX, EDU.AX
+
+Fetching price data...
+
+Warning: Excluding 1 ticker(s) with no valid data: ATGE
+Fetched 2011 days of data for 4 ticker(s)
+Failed to load: ATGE
+Successfully loaded: EDU.AX, LINC, NXD.AX, UTI
+Date range: 2019-01-14 00:00:00 to 2026-10-26 00:00:00
+
+Calculating returns...
+Calculated returns for 2009 periods
+
+Computing analytics...
+
+Annualized Returns:
+  EDU.AX    :  15.42%
+  LINC      :  28.55%
+  NXD.AX    : -19.92%
+  UTI       :  23.82%
+
+Annualized Volatility:
+  EDU.AX    :  65.70%
+  LINC      :  54.98%
+  NXD.AX    :  83.83%
+  UTI       :  55.69%
+
+Running backtest...
+Rebalancing on 2020-01-31:
+  Portfolio value: $100,000.00
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-03-31:
+  Portfolio value: $72,946.87
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-04-30:
+  Portfolio value: $77,712.53
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-06-30:
+  Portfolio value: $87,943.48
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-07-31:
+  Portfolio value: $99,546.29
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-08-31:
+  Portfolio value: $124,141.02
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-09-30:
+  Portfolio value: $139,295.52
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-11-30:
+  Portfolio value: $168,764.18
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2020-12-31:
+  Portfolio value: $169,571.53
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-03-31:
+  Portfolio value: $174,071.26
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-04-30:
+  Portfolio value: $170,311.04
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-05-31:
+  Portfolio value: $173,847.01
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-06-30:
+  Portfolio value: $173,892.45
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-08-31:
+  Portfolio value: $155,453.71
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-09-30:
+  Portfolio value: $160,467.71
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-11-30:
+  Portfolio value: $172,008.88
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2021-12-31:
+  Portfolio value: $173,340.78
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-01-31:
+  Portfolio value: $165,680.63
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-02-28:
+  Portfolio value: $183,012.52
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-03-31:
+  Portfolio value: $173,745.23
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-05-31:
+  Portfolio value: $172,435.24
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-06-30:
+  Portfolio value: $168,292.12
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-08-31:
+  Portfolio value: $175,915.69
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-09-30:
+  Portfolio value: $178,726.06
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-10-31:
+  Portfolio value: $196,156.79
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2022-11-30:
+  Portfolio value: $215,162.79
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-01-31:
+  Portfolio value: $213,389.20
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-02-28:
+  Portfolio value: $210,536.87
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-03-31:
+  Portfolio value: $209,530.56
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-05-31:
+  Portfolio value: $216,118.90
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-06-30:
+  Portfolio value: $221,207.09
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-07-31:
+  Portfolio value: $218,809.51
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-08-31:
+  Portfolio value: $210,677.95
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-10-31:
+  Portfolio value: $195,849.78
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2023-11-30:
+  Portfolio value: $215,548.80
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-01-31:
+  Portfolio value: $210,152.95
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-02-29:
+  Portfolio value: $185,133.18
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-04-30:
+  Portfolio value: $177,233.31
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-05-31:
+  Portfolio value: $170,895.70
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-07-31:
+  Portfolio value: $175,564.44
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-09-30:
+  Portfolio value: $141,035.01
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-10-31:
+  Portfolio value: $156,303.03
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2024-12-31:
+  Portfolio value: $199,699.95
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-01-31:
+  Portfolio value: $212,661.73
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-02-28:
+  Portfolio value: $256,458.68
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-03-31:
+  Portfolio value: $231,062.55
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-04-30:
+  Portfolio value: $225,618.46
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-06-30:
+  Portfolio value: $337,192.68
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-07-31:
+  Portfolio value: $400,721.11
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-09-30:
+  Portfolio value: $449,846.62
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-10-31:
+  Portfolio value: $468,496.87
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2025-12-31:
+  Portfolio value: $567,484.05
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2026-03-31:
+  Portfolio value: $641,285.70
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2026-04-30:
+  Portfolio value: $670,596.20
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2026-06-30:
+  Portfolio value: $686,865.24
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2026-07-31:
+  Portfolio value: $640,656.83
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2026-08-31:
+  Portfolio value: $523,897.15
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Rebalancing on 2026-09-30:
+  Portfolio value: $432,581.75
+    EDU.AX: 25.00%
+    LINC: 25.00%
+    NXD.AX: 25.00%
+    UTI: 25.00%
+Backtest complete: 1761 days simulated
+
+Performance Metrics:
+  Total Return:        322.03%
+  Annualized Return:    23.53%
+  Annualized Vol:       34.78%
+  Sharpe Ratio:           0.68
+  Max Drawdown:        -46.59%
+    Peak Date:         2026-10-15
+    Peak Value:        $753,723.88
+    Trough Date:       2026-10-15
+    Trough Value:      $402,577.23
+  Calmar Ratio:           0.51
+
+Final Portfolio Weights:
+  LINC      :  25.00%
+  UTI       :  25.00%
+  NXD.AX    :  25.00%
+  EDU.AX    :  25.00%
+
+Generating reports...
+Backtest results saved to results/run-a-equal_weight-monthly/20261028-15-02-56/backtest_results.csv
+Weights over time saved to results/run-a-equal_weight-monthly/20261028-15-02-56/weights_over_time.csv
+Equity curve saved to results/run-a-equal_weight-monthly/20261028-15-02-56/equity_curve.png
+Allocation chart saved to results/run-a-equal_weight-monthly/20261028-15-02-56/allocation.png
+Correlation heatmap saved to results/run-a-equal_weight-monthly/20261028-15-02-56/correlation_heatmap.png
+Summary statistics saved to results/run-a-equal_weight-monthly/20261028-15-02-56/summary.txt
+
+============================================================
+All outputs saved to: /home/runner/work/survival-of-the-fitters/survival-of-the-fitters/results/run-a-equal_weight-monthly/20261028-15-02-56
+============================================================

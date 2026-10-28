@@ -12,9 +12,67 @@ This project analyzes and backtests investment portfolios focused on vocational 
 
 **Important:** This portfolio specifically focuses on hands-on vocational skills, not IT/coding training, which are actively shunned.
 
-### 2025 performance
+### Backtest results: 2020-01-01 to 2026-10-27
 
-<img width="901" height="1600" alt="image" src="https://github.com/user-attachments/assets/56e63dfb-8339-404a-a655-7d04608d57bc" />
+$100,000 initial capital, universe of 4 loaded tickers (LINC, UTI, NXD.AX, EDU.AX; ATGE currently returns no data from Yahoo). ASCII equity curves from `print_ascii_equity_curve`; full metrics, weights and data provenance are in [`results/RESULTS.md`](results/RESULTS.md).
+
+**Equal weight, monthly rebalance** — total return 322.0%, Sharpe 0.68, max drawdown -46.6%, final value $422,032
+
+```
+   700,080 ┤
+   669,988 ┤                                                       ╭╮
+   639,896 ┤                                                     ╭─╯╰╮
+   609,805 ┤                                                     │   │
+   579,713 ┤                                                   ╭╮│   │
+   549,621 ┤                                                   │││   │
+   519,530 ┤                                                  ╭╯╰╯   │
+   489,438 ┤                                                  │      ╰╮
+   459,346 ┤                                                 ╭╯       │
+   429,254 ┤                                                 │        │
+   399,163 ┤                                                ╭╯        ╰
+   369,071 ┤                                                │
+   338,979 ┤                                               ╭╯
+   308,888 ┤                                              ╭╯
+   278,796 ┤                                              │
+   248,704 ┤                                              │
+   218,612 ┤                        ╭╮╭╮╭───╮╭─╮       ╭──╯
+   188,521 ┤         ╭──╮      ╭─╮╭─╯╰╯╰╯   ╰╯ ╰──╮   ╭╯
+   158,429 ┤      ╭──╯  ╰──────╯ ╰╯               ╰─╮╭╯
+   128,337 ┤     ╭╯                                 ╰╯
+    98,246 ┼─╮ ╭─╯
+    68,154 ┤ ╰─╯
+             2020-01-02      2023-06-19 (mid)      2026-10-26
+```
+
+**Max diversification, quarterly rebalance** — total return 766.2%, Sharpe 1.13, max drawdown -48.8%, final value $866,220
+
+```
+ 1,507,886 ┤
+ 1,440,844 ┤                                                      ╭─╮
+ 1,373,802 ┤                                                     ╭╯ ╰╮
+ 1,306,759 ┤                                                     │   │
+ 1,239,717 ┤                                                   ╭╮│   │
+ 1,172,675 ┤                                                   │││   │
+ 1,105,633 ┤                                                  ╭╯╰╯   ╰╮
+ 1,038,591 ┤                                                 ╭╯       │
+   971,548 ┤                                                 │        │
+   904,506 ┤                                                ╭╯        │
+   837,464 ┤                                               ╭╯         ╰
+   770,422 ┤                                               │
+   703,380 ┤                                              ╭╯
+   636,337 ┤                                              │
+   569,295 ┤                                              │
+   502,253 ┤                                           ╭──╯
+   435,211 ┤                                          ╭╯
+   368,169 ┤                                 ╭─╮ ╭──╮╭╯
+   301,127 ┤         ╭──╮   ╭────────────────╯ ╰─╯  ╰╯
+   234,084 ┤      ╭──╯  ╰───╯
+   167,042 ┤   ╭──╯
+   100,000 ┼───╯
+             2020-01-02      2023-06-19 (mid)      2026-10-26
+```
+
+Max drawdown for both runs bottoms on 2026-10-15 (peak 2026-07-07).
 
 
 ## Installation
@@ -58,7 +116,7 @@ Requirements:
 ```bash
 python scripts/run_pipeline.py \
   --start 2020-01-01 \
-  --end 2023-12-31 \
+  --end 2026-10-27 \
   --strategy equal_weight \
   --rebalance Q \
   --initial-capital 100000 \
@@ -72,7 +130,9 @@ python scripts/run_pipeline.py \
 - `--strategy`: Portfolio strategy (`equal_weight` or `max_div`)
 - `--rebalance`: Rebalancing frequency (`M`=monthly, `Q`=quarterly)
 - `--initial-capital`: Initial portfolio value (default: 100000)
-- `--output`: Output directory (default: `output`)
+- `--output`: Output directory (default: `output`, gitignored; a timestamped subdirectory is created inside)
+- `--no-chart`: Skip the ASCII equity curve chart in the console
+- `--verbose`: Print rebalance details
 
 ### Test with Synthetic Data
 
@@ -92,7 +152,7 @@ Allocates equal weight to all assets in the universe. Simple, diversified approa
 ### Max Diversification
 Optimizes portfolio weights to maximize the diversification ratio:
 - Ratio = (sum of weighted volatilities) / (portfolio volatility)
-- Subject to weight constraints (5-30% per asset)
+- Subject to weight constraints (5-35% per asset)
 - Rebalanced periodically
 
 ## Outputs
@@ -137,7 +197,7 @@ survival-of-the-fitters/
 
 ## Universe
 
-Current universe includes 6 vocational training companies:
+Current universe (`data/universe.csv`) includes 5 vocational training companies:
 
 | Ticker | Region | Focus |
 |--------|--------|-------|
@@ -145,7 +205,6 @@ Current universe includes 6 vocational training companies:
 | UTI | US | Transportation + skilled trades |
 | ATGE | US | Healthcare vocational (nursing/medical) |
 | NXD.AX | AU | Vocational training (trade/service) |
-| SIT.AX | AU | Skilled trades (industrial) |
 | EDU.AX | AU | Vocational (aged care/community) |
 
 ## License
